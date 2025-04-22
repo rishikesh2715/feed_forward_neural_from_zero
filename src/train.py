@@ -4,7 +4,7 @@ from src.model import NeuralNetwork
 import src.utils as utils
 
 
-def train_model(X, Y, layer_sizes, activations, loss_type='cross_entropy',
+def train_model(X, Y, layer_sizes, activations, loss_type='mse',
                 epochs=1000, lr=0.01, verbose=True):
     """
     Trains a feedforward neural network on the given data.
@@ -38,7 +38,7 @@ def train_model(X, Y, layer_sizes, activations, loss_type='cross_entropy',
     return model, losses
 
 
-def run_xor_experiment():
+def run_xor_experiment(epochs=2000, lr=0.1):
     """
     Trains and evaluates the network on the XOR classification task.
     """
@@ -49,14 +49,14 @@ def run_xor_experiment():
     layer_sizes = [input_dim, 2, 1]
     activations = ['tanh', 'sigmoid']
     model, losses = train_model(X, Y, layer_sizes, activations,
-                                loss_type='mse', epochs=1000, lr=0.1)
+                                loss_type='mse', epochs=5000, lr=0.05)
 
     utils.plot_loss_curve(losses, title="XOR - Loss Curve")
     utils.plot_decision_surface(model, X, Y)
     utils.plot_3d_decision_surface(model, X, Y)
 
 
-def run_regression_experiment(file_path, hidden_units=3):
+def run_regression_experiment(file_path, hidden_units=3, epochs=5000, lr=0.05):
     """
     Trains and evaluates the network on the regression task.
 
@@ -71,7 +71,7 @@ def run_regression_experiment(file_path, hidden_units=3):
     layer_sizes = [input_dim, hidden_units, 1]
     activations = ['tanh']
     model, losses = train_model(X, Y, layer_sizes, activations,
-                                loss_type='mse', epochs=2000, lr=0.05)
+                                loss_type='mse', epochs=5000, lr=0.05)
 
     Y_pred = model.predict(X)
     utils.plot_loss_curve(losses, title=f"Regression - {hidden_units} Units Loss")
@@ -81,7 +81,6 @@ def run_regression_experiment(file_path, hidden_units=3):
 if __name__ == "__main__":
     run_xor_experiment()
 
-    # Update this path if needed
     regression_path = "../data/Proj5Dataset.xlsx"
 
     run_regression_experiment(regression_path, hidden_units=3)
