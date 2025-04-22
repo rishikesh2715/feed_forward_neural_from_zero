@@ -61,7 +61,11 @@ class NeuralNetwork:
 
         for i in range(len(layer_sizes) - 1):
             # He or Xavier init could be used here
-            weight = np.random.randn(layer_sizes[i + 1], layer_sizes[i]) * np.sqrt(2. / layer_sizes[i])
+            fan_in = layer_sizes[i]
+            fan_out = layer_sizes[i + 1]
+            # weight = np.random.randn(layer_sizes[i + 1], layer_sizes[i]) * np.sqrt(2. / layer_sizes[i])
+            weight = np.random.randn(fan_out, fan_in) * np.sqrt(1. / fan_in)
+            
             bias = np.zeros((layer_sizes[i + 1], 1))
             self.weights.append(weight)
             self.biases.append(bias)
